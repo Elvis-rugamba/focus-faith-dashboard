@@ -73,7 +73,7 @@ const SignIn = () => {
         password: user.password,
       });
       localStorage.setItem("token", results.data.data);
-      history.push("/admin/");
+      history.push("/");
     } catch (error) {
       console.log('error', error.response.data);
       if(error.response.data.status == 401) {

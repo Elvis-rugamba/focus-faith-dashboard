@@ -294,7 +294,7 @@ const Dashboard = () => {
               setOpenNewsModal(true);
               console.log("state", openNewsModal, openUserModal);
             }}
-            style={{ display: window.location.pathname === "/admin/" ? "none" : "" }}
+            style={{ display: window.location.pathname === "/" ? "none" : "" }}
           />
         </main>
       </div>
