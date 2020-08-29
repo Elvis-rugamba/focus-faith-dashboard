@@ -13,7 +13,7 @@ const App = () => {
     <Router>
       <Switch>
         <Route path="/auth" component={AuthFile} />
-        <PrivateRoute path="/admin/"  component={Dashboard} />
+        <PrivateRoute path="/admin"  component={Dashboard} />
       </Switch>
     </Router>
   );
