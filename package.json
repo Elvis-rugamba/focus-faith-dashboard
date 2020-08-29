@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/Skemc/focus-faith-dashboard/issues"
   },
-  "homepage": "https://github.com/Skemc/focus-faith-dashboard#readme",
+  "homepage": "./",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
