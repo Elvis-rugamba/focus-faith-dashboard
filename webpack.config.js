@@ -6,40 +6,40 @@ module.exports = {
   output: {
     path: path.join(__dirname, "/dist"),
     filename: "index_bundle.js",
-    publicPath: "/"
+    publicPath: "/",
   },
   devServer: {
     historyApiFallback: true,
     port: 9000,
-    contentBase: './',
+    contentBase: path.join(__dirname, 'dist'),
   },
   module: {
     rules: [
       {
         test: /\.js|\.jsx$/,
         exclude: /node_modules/,
-        use: ["babel-loader"]
+        use: ["babel-loader"],
       },
       {
-        test: /\.(svg|png|jpg|gif)$/,
+        test: /\.(svg|png|jpg|gif|jpeg)$/,
         use: {
-            loader: 'file-loader',
-            options: {
-                name: '[name].[hash].[ext]',
-                outputPath: 'images',
-            },
+          loader: "file-loader",
+          options: {
+            name: "[name].[hash].[ext]",
+            outputPath: "images",
+          },
         },
-    },
+      },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
-    ]
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve('./src/index.html'),
-    })
+      template: path.resolve("./src/index.html"),
+    }),
   ],
-  node: { fs: 'empty' }
+  node: { fs: "empty" },
 };
