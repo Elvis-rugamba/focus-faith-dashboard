@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Link} from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -16,12 +16,13 @@ import Container from "@material-ui/core/Container";
 import Axios from "axios";
 import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://www.abbagospel.online">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -53,18 +54,21 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = () => {
   const classes = useStyles();
   const [user, setUser] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
-    const [toast, setToast] = React.useState({
-      message: "",
-      open: false,
-      type: "",
-    });
+  const [toast, setToast] = React.useState({
+    message: "",
+    open: false,
+    type: "",
+  });
+
+  const [loading, setLoading] = React.useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      setLoading(true);
       const history = createBrowserHistory({
         forceRefresh: true,
       });
@@ -73,11 +77,16 @@ const SignIn = () => {
         password: user.password,
       });
       localStorage.setItem("token", results.data.data);
+      setLoading(false);
       history.push("/");
     } catch (error) {
-      console.log('error', error.response.data);
-      if(error.response.data.status == 401) {
-        setToast({ message: error.response.data.message, open: true, type: "error" });
+      setLoading(false);
+      if (error.response.data.status == 401) {
+        setToast({
+          message: error.response.data.message,
+          open: true,
+          type: "error",
+        });
       }
       setToast({
         message: error.response.data.message,
@@ -85,13 +94,13 @@ const SignIn = () => {
         type: "error",
       });
     }
-  }
+  };
 
-  const handleEmail = ({target}) => {
-    setUser({...user, email: target.value})
-  }
-  const handlePassword = ({target}) => {
-    setUser({...user, password: target.value})
+  const handleEmail = ({ target }) => {
+    setUser({ ...user, email: target.value });
+  };
+  const handlePassword = ({ target }) => {
+    setUser({ ...user, password: target.value });
   };
 
   return (
@@ -152,7 +161,12 @@ const SignIn = () => {
             className={classes.submit}
             onClick={handleSubmit}
           >
-            Sign In
+            Sign In {' '}
+            <CircularProgress
+              size={15}
+              color="white"
+              style={{ display: loading ? "" : "none", marginLeft: "2px" }}
+            />
           </Button>
           <Grid container>
             <Grid item xs>
@@ -171,6 +185,6 @@ const SignIn = () => {
       </Box>
     </Container>
   );
-}
+};
 
 export default SignIn;

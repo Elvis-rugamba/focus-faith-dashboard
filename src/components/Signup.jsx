@@ -14,6 +14,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Axios from "axios";
 
 
@@ -21,7 +22,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://www.abbagospel.online">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -60,10 +61,13 @@ export default function SignUp() {
     role: '',
     phone: ''
   })
+  const [loading, setLoading] = React.useState(false);
 
    const handleSubmit = async (event) => {
      event.preventDefault();
-     const results = await Axios.post("http://localhost:3000/api/new-user", {
+     setLoading(true)
+     try {
+       const results = await Axios.post("http://localhost:3000/api/new-user", {
        firstName: user.firstName,
        lastName: user.lastName,
        email: user.email,
@@ -71,9 +75,25 @@ export default function SignUp() {
        role: user.role,
        phone: user.phone
      });
-     console.log("Submittted==================*******", results);
      const response = await results.json();
+     setLoading(false)
      history.push('/auth/signin');
+     } catch (error) {
+      setLoading(false);
+      if (error.response.data.status == 401) {
+        setToast({
+          message: error.response.data.message,
+          open: true,
+          type: "error",
+        });
+      }
+      setToast({
+        message: error.response.data.message,
+        open: true,
+        type: "error",
+      });
+     }
+     
    };
 
 
@@ -189,7 +209,12 @@ export default function SignUp() {
             className={classes.submit}
             onClick={handleSubmit}
           >
-            Sign Up
+            Sign Up {' '}
+            <CircularProgress
+              size={15}
+              color="white"
+              style={{ display: loading ? "" : "none", marginLeft: "2px" }}
+            />
           </Button>
           <Grid container justify="flex-end">
             <Grid item>

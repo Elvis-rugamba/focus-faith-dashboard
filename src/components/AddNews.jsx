@@ -141,9 +141,9 @@ const AddNews = (props) => {
         <Modal
           open={props.open}
           onClose={props.onClose}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          style={{ position: "absolute", top: "50px", border: "none" }}
+          aria-labelledby="news-modal-title"
+          aria-describedby="news-modal-description"
+          style={{ position: "absolute", top: "50px", border: "none", overflow: "auto" }}
         >
           <Container maxWidth="md">
             <Grid
