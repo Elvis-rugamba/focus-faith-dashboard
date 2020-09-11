@@ -67,7 +67,7 @@ export default function SignUp() {
      event.preventDefault();
      setLoading(true)
      try {
-       const results = await Axios.post("http://localhost:3000/api/new-user", {
+       const results = await Axios.post("https://www.abbagospel.online/api/new-user", {
        firstName: user.firstName,
        lastName: user.lastName,
        email: user.email,

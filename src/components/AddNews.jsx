@@ -114,11 +114,11 @@ const AddNews = (props) => {
         };
         
         // replace cloudname with your Cloudinary cloud_name
-        const results = await fetch('https://api.Cloudinary.com/v1_1/focus-faith-family/image/upload', options);
+        const results = await fetch('http://localhost:3000/api/news/upload', options);
         const response = await results.json();
         setLoading(false);
         console.log('uploaded!!!');
-        setArticle({...article, image: response.secure_url});
+        setArticle({...article, image: response.url});
     }
 
     const handleBody = (event) => {
