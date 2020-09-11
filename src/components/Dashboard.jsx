@@ -107,6 +107,8 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     width: "150px",
+    paddingTop: "8px",
+    paddingBottom: "8px"
   },
   avatar: {
     position: "absolute",
