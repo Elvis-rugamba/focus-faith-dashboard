@@ -104,11 +104,16 @@ const AddTvShow = (props) => {
             }
           );
           setLoadingSubmit(false)
-          setToast({message: 'Article submitted successfully to the editor!', open: true, type: 'success'});
+          setToast({message: 'Tv show submitted successfully!', open: true, type: 'success'});
           window.location.reload();
         } catch (error) {
           setLoadingSubmit(false)
-          setToast({message: error.message, open: true, type: 'error'})
+          if (error.response) {
+            setToast({ message: error.response.data.message, open: true, type: "error" });
+    
+           } else {
+            setToast({ message: error.message, open: true, type: "error" });
+           }
         }
     };
 
@@ -132,13 +137,19 @@ const AddTvShow = (props) => {
         setArticle({...article, image: response.url});
       } catch (error) {
         setLoading(false);
-        setToast({message: error.message, open: true, type: 'error'})
+        if (error.response) {
+          setToast({ message: error.response.data.message, open: true, type: "error" });
+  
+         } else {
+          setToast({ message: error.message, open: true, type: "error" });
+         }
       }
         
     }
 
     const handleVideoUpload = async () => {
-      setLoading(true);
+      try {
+        setLoading(true);
         const { files } = document.querySelector('input[type="file"]')
         const formData = new FormData();
         formData.append('tv', files[0]);
@@ -154,6 +165,16 @@ const AddTvShow = (props) => {
         setLoading(false);
         console.log('uploaded!!!');
         setArticle({...article, url: response.url});
+      } catch (error) {
+        setLoading(false)
+        if (error.response) {
+          setToast({ message: error.response.data.message, open: true, type: "error" });
+  
+         } else {
+          setToast({ message: error.message, open: true, type: "error" });
+         }
+      }
+      
     }
 
     const handleBody = (event) => {

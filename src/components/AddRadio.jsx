@@ -107,12 +107,18 @@ const AddRadio = (props) => {
           window.location.reload();
         } catch (error) {
           setLoadingSubmit(false)
-          setToast({message: error.message, open: true, type: 'error'})
+          if (error.response) {
+            setToast({ message: error.response.data.message, open: true, type: "error" });
+    
+           } else {
+            setToast({ message: error.message, open: true, type: "error" });
+           }
         }
     };
 
     const handleImageUpload = async () => {
-      setLoading(true);
+      try {
+        setLoading(true);
         const { files } = document.querySelector('input[type="file"]')
         const formData = new FormData();
         formData.append('image', files[0]);
@@ -128,10 +134,21 @@ const AddRadio = (props) => {
         setLoading(false);
         console.log('uploaded!!!');
         setArticle({...article, image: response.url});
+      } catch (error) {
+        setLoading(false)
+        if (error.response) {
+          setToast({ message: error.response.data.message, open: true, type: "error" });
+  
+         } else {
+          setToast({ message: error.message, open: true, type: "error" });
+         }
+      }
+      
     }
 
     const handleVideoUpload = async () => {
-      setLoading(true);
+      try {
+        setLoading(true);
         const { files } = document.querySelector('input[type="file"]')
         const formData = new FormData();
         formData.append('radio', files[0]);
@@ -147,6 +164,16 @@ const AddRadio = (props) => {
         setLoading(false);
         console.log('uploaded!!!');
         setArticle({...article, url: response.url});
+      } catch (error) {
+        setLoading(false)
+        if (error.response) {
+          setToast({ message: error.response.data.message, open: true, type: "error" });
+  
+         } else {
+          setToast({ message: error.message, open: true, type: "error" });
+         }
+      }
+      
     }
 
     const handleBody = (event) => {
