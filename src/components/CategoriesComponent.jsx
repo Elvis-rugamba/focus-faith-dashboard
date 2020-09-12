@@ -24,6 +24,7 @@ import Axios from "axios";
 import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import Tooltip from "@material-ui/core/Tooltip";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
  const useStyles = makeStyles((theme) => ({
@@ -47,25 +48,60 @@ import Tooltip from "@material-ui/core/Tooltip";
 
    const classes = useStyles()
    const [open, setOpen] = React.useState(false);
-   const [category, setCategory] = React.useState('');
+   const [category, setCategory] = React.useState({
+     categoryName: null,
+     frenshName: null,
+     rwandanName: null
+   });
   const [toast, setToast] = React.useState({
     message: "",
     open: false,
     type: "",
   });
+  const [loading, setLoading] = React.useState(false);
+  const handleCategory = (event) => {
+    setCategory({...category, categoryName: event.target.value});
+};
+const handleFrenshName = (event) => {
+  setCategory({...category, frenshName: event.target.value});
+};
+const handleRwandanName = (event) => {
+  setCategory({...category, rwandanName: event.target.value});
+};
    const handleSubmit = async () => {
      try {
+       setLoading(true)
+
+       let linkUrl;
+       if (props.type === 'articles') {
+         linkUrl = "https://www.abbagospel.online/api/new-category"
+       } else if (props.type === 'tv shows') {
+        linkUrl = "http://localhost:3000/api/tv/categories"
+      } else if (props.type === 'musics') {
+        linkUrl = "https://www.abbagospel.online/api/musics/categories"
+      } else if (props.type === 'articles') {
+        linkUrl = "https://www.abbagospel.online/api/radio/categories"
+      } else {
+        linkUrl = "https://www.abbagospel.online/api/new-category"
+      }
+      
+      console.log("linkUrl", linkUrl);
        const token = localStorage.getItem("token");
        const results = await Axios.post(
-         "http://localhost:3000/api/new-category",
+         linkUrl,
          {
-           categoryName: category,
+           categoryName: category.categoryName,
+           frenshName: category.frenshName,
+           rwandanName: category.rwandanName
          },
          {
-           headers: { auth: `${token}` },
+           headers: { 
+            auth: `${token}`
+          },
          }
        );
        console.log("heree we go", results);
+       setLoading(false)
        window.location.reload();
        setToast({
          message: "Category created successfully!",
@@ -73,7 +109,13 @@ import Tooltip from "@material-ui/core/Tooltip";
          type: "success",
        });
      } catch (error) {
+       setLoading(false)
+       if (error.response) {
+        setToast({ message: error.response.data.message, open: true, type: "error" });
+
+       } else {
         setToast({ message: error.message, open: true, type: "error" });
+       }
      }
    }
     return (
@@ -82,6 +124,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 
         <Modal
           open={open}
+          onClose={props.onClose}
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
           style={{
@@ -121,10 +164,24 @@ import Tooltip from "@material-ui/core/Tooltip";
                 <h3>Create a new category</h3>
                 <TextField
                   id="standard-basic"
-                  label="Category name"
+                  label="English name"
                   margin="dense"
                   className={classes.text}
-                  onChange={() => setCategory(event.target.value)}
+                  onChange={handleCategory}
+                />
+                <TextField
+                  id="standard-basic"
+                  label="French name"
+                  margin="dense"
+                  className={classes.text}
+                  onChange={handleFrenshName}
+                />
+                <TextField
+                  id="standard-basic"
+                  label="Kinyarwanda name"
+                  margin="dense"
+                  className={classes.text}
+                  onChange={handleRwandanName}
                 />
                 <Button
                   variant="contained"
@@ -133,7 +190,12 @@ import Tooltip from "@material-ui/core/Tooltip";
                   style={{ marginTop: "20px", fontSize: "12px" }}
                   onClick={handleSubmit}
                 >
-                  Create Category
+                  Create Category {' '}
+            <CircularProgress
+              size={15}
+              color="white"
+              style={{ display: loading ? "" : "none", marginLeft: "2px" }}
+            />
                 </Button>
               </Grid>
             </Grid>
@@ -187,7 +249,7 @@ import Tooltip from "@material-ui/core/Tooltip";
                         {/* 4 {console.log("what", props.categoriesGroup[index])} */}
                         {props.categoriesGroup[index] ? props.categoriesGroup[index].count : 0}
                       </span>
-                      <span style={{ textAlign: "center" }}>articles</span>
+                      <span style={{ textAlign: "center" }}>{props.type ? props.type : "articles"}</span>
                     </Grid>
                   </Grid>
                 </Grid>

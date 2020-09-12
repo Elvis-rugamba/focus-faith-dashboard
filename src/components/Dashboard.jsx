@@ -27,6 +27,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import TvIcon from "@material-ui/icons/Tv";
 import AlbumIcon from "@material-ui/icons/Album";
+import RadioIcon from "@material-ui/icons/Radio";
 import DescriptionIcon from "@material-ui/icons/Description";
 import PeopleAltRoundedIcon from "@material-ui/icons/PeopleAltRounded";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
@@ -42,6 +43,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import UsersTable from "./Users.jsx";
 import Axios from 'axios';
+import TvShowComponent from "./TvShowComponent.jsx";
+import MusicComponent from "./MusicComponent.jsx";
+import RadioComponent from "./RadioComponent.jsx";
+import AddTvShow from './AddTvShow.jsx';
+import AddMusic from './AddMusic.jsx';
+import AddRadio from './AddRadio.jsx';
 
 const drawerWidth = 240;
 
@@ -128,12 +135,18 @@ const Dashboard = () => {
   let location = useLocation();
   const [open, setOpen] = React.useState(false);
   const [openNewsModal, setOpenNewsModal] = React.useState(false);
+  const [openTvShowModal, setOpenTvShowModal] = React.useState(false);
+  const [openMusicModal, setOpenMusicModal] = React.useState(false);
+  const [openRadioModal, setOpenRadioModal] = React.useState(false);
   const [openUserModal, setOpenUserModal] = React.useState(false);
    const [user, setUser] = React.useState({
         firstName: '',
         lastName: ''
     });
       const [categories, setCategories] = React.useState([]);
+      const [tvCategories, setTvCategories] = React.useState([]);
+      const [musicCategories, setMusicCategories] = React.useState([]);
+      const [radioCategories, setRadioCategories] = React.useState([]);
   const [role, setRole] = React.useState('');
   const [path, setPath] = React.useState('')
   useEffect(() => {
@@ -142,12 +155,30 @@ const Dashboard = () => {
     setUser({ firstName: payload.firstname, lastName: payload.lastname });
     setRole(payload.role);
     const fetchArticles = async () => {
-      const categories = await Axios.get(
-        "http://localhost:3000/api/categories"
+      try {
+        const categories = await Axios.get(
+        "https://www.abbagospel.online/api/categories"
       );
+      const tvCat = await Axios.get(
+        "https://www.abbagospel.online/api/tv/categories"
+      );
+      const musicCat = await Axios.get(
+        "https://www.abbagospel.online/api/musics/categories"
+      );
+      const radioCat = await Axios.get(
+        "https://www.abbagospel.online/api/radio/categories"
+      );
+      setCategories(categories.data.data);
+      setTvCategories(tvCat.data.data);
+      setMusicCategories(musicCat.data.data);
+      setRadioCategories(radioCat.data.data);
+      } catch (error) {
+        
+      }
+      
       // console.log('savagelove+++++++++++++++++++++++++++')
       // console.log('-------------->', response.data.data);
-      setCategories(categories.data.data);
+      
     };
         fetchArticles();
   }, []);
@@ -193,6 +224,21 @@ const Dashboard = () => {
           categories={categories}
           onClose={() => setOpenNewsModal(false)}
         />
+        <AddTvShow
+          open={openTvShowModal}
+          categories={tvCategories}
+          onClose={() => setOpenTvShowModal(false)}
+        />
+        <AddMusic
+          open={openMusicModal}
+          categories={musicCategories}
+          onClose={() => setOpenMusicModal(false)}
+        />
+        <AddRadio
+          open={openRadioModal}
+          categories={radioCategories}
+          onClose={() => setOpenRadioModal(false)}
+        />
         <AddUser
           open={openUserModal}
           onClose={() => setOpenUserModal(false)}
@@ -233,8 +279,26 @@ const Dashboard = () => {
                 path: "/news",
                 onClick: () => setPath("/news"),
               },
-              { text: "TV Shows", icon: <TvIcon />, path: "/" },
-              { text: "Music", icon: <AlbumIcon />, path: "/" },
+              { 
+                text: "TV Shows", 
+                icon: <TvIcon />, 
+                path: "/tvShow" ,
+                onClick: () => setPath("/tvShow") 
+              },
+              role === "admin" || role === "artist"
+                ? { text: "Music", 
+                    icon: <AlbumIcon />, 
+                    path: "/music",
+                    onClick: () => setPath("/music") 
+                  }
+                : "",
+              ,
+              { 
+                text: "Radio", 
+                icon: <RadioIcon />, 
+                path: "/radio",
+                onClick: () => setPath("/radio") 
+              },
               role === "admin"
                 ? {
                     text: "Users",
@@ -277,7 +341,10 @@ const Dashboard = () => {
                 <NewsTable {...props} role={role ? role : "writer"} />
               )}
             />
-            <Route path="/users" component={UsersTable} />
+            <Route path="/tvShow" render={(props) => (<TvShowComponent {...props} role={role ? role : "writer"} />)} />
+            <Route path="/music" render={(props) => (<MusicComponent {...props} role={role ? role : "writer"} />)} />
+            <Route path="/radio" render={(props) => (<RadioComponent {...props} role={role ? role : "writer"} />)} />
+            <Route path="/users" render={(props) => (<UsersTable {...props} role={role ? role : "writer"} />)} />
           </Switch>
           <FloatingActionButtons
             onClick={() => {
@@ -287,14 +354,49 @@ const Dashboard = () => {
                 "sleep",
                 path
               );
-              if (window.location.pathname === "/users") {
+              if (window.location.pathname === "/news") {
+                setOpenNewsModal(true);
+                setOpenTvShowModal(false);
+                setOpenMusicModal(false);
+                setOpenRadioModal(false);
+                setOpenUserModal(false);
+                return;
+              } else if (window.location.pathname === "/tvShow") {
                 setOpenNewsModal(false);
+                setOpenTvShowModal(true);
+                setOpenMusicModal(false);
+                setOpenRadioModal(false);
+                setOpenUserModal(false);
+                return;
+              } else if (window.location.pathname === "/music") {
+                setOpenNewsModal(false);
+                setOpenTvShowModal(false);
+                setOpenMusicModal(true);
+                setOpenRadioModal(false);
+                setOpenUserModal(false);
+                return;
+              } else if (window.location.pathname === "/radio") {
+                setOpenNewsModal(false);
+                setOpenTvShowModal(false);
+                setOpenMusicModal(false);
+                setOpenRadioModal(true);
+                setOpenUserModal(false);
+                return;
+              } else if (window.location.pathname === "/users") {
+                setOpenNewsModal(false);
+                setOpenTvShowModal(false);
+                setOpenMusicModal(false);
+                setOpenRadioModal(false);
                 setOpenUserModal(true);
                 return;
+              } else {
+                setOpenNewsModal(false);
+                setOpenTvShowModal(false);
+                setOpenMusicModal(false);
+                setOpenRadioModal(false);
+                setOpenUserModal(false);
+                return;
               }
-              setOpenUserModal(false);
-              setOpenNewsModal(true);
-              console.log("state", openNewsModal, openUserModal);
             }}
             style={{ display: window.location.pathname === "/" ? "none" : "" }}
           />

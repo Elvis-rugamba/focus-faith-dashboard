@@ -88,7 +88,7 @@ export default function AddUser(props) {
     try {
           event.preventDefault();
           const results = await Axios.post(
-            "http://localhost:3000/api/new-user",
+            "https://www.abbagospel.online/api/new-user",
             {
               firstName: user.firstName,
               lastName: user.lastName,
@@ -104,8 +104,6 @@ export default function AddUser(props) {
             type: "success",
           });
           window.location.reload();
-
-          console.log("Submittted==================*******", results);
         } catch (error) {
           if(error.response.status === 409) return setToast({message: error.response.data.message, open: true, type: 'error'})
           return error.message;
