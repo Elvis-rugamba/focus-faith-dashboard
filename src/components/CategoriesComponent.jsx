@@ -59,6 +59,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
     type: "",
   });
   const [loading, setLoading] = React.useState(false);
+<<<<<<< HEAD
   const handleCategory = (event) => {
     setCategory({...category, categoryName: event.target.value});
 };
@@ -68,6 +69,8 @@ const handleFrenshName = (event) => {
 const handleRwandanName = (event) => {
   setCategory({...category, rwandanName: event.target.value});
 };
+=======
+>>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
    const handleSubmit = async () => {
      try {
        setLoading(true)
@@ -76,7 +79,11 @@ const handleRwandanName = (event) => {
        if (props.type === 'articles') {
          linkUrl = "https://www.abbagospel.online/api/new-category"
        } else if (props.type === 'tv shows') {
+<<<<<<< HEAD
         linkUrl = "http://localhost:3000/api/tv/categories"
+=======
+        linkUrl = "https://www.abbagospel.online/api/tv/categories"
+>>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
       } else if (props.type === 'musics') {
         linkUrl = "https://www.abbagospel.online/api/musics/categories"
       } else if (props.type === 'articles') {
@@ -96,7 +103,12 @@ const handleRwandanName = (event) => {
          },
          {
            headers: { 
+<<<<<<< HEAD
             auth: `${token}`
+=======
+            auth: `${token}`, 
+           "Access-Control-Allow-Origin": "*" 
+>>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
           },
          }
        );
@@ -110,10 +122,13 @@ const handleRwandanName = (event) => {
        });
      } catch (error) {
        setLoading(false)
+<<<<<<< HEAD
        if (error.response) {
         setToast({ message: error.response.data.message, open: true, type: "error" });
 
        } else {
+=======
+>>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
         setToast({ message: error.message, open: true, type: "error" });
        }
      }
@@ -167,14 +182,22 @@ const handleRwandanName = (event) => {
                   label="English name"
                   margin="dense"
                   className={classes.text}
+<<<<<<< HEAD
                   onChange={handleCategory}
+=======
+                  onChange={() => setCategory(event.target.value)}
+>>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
                 />
                 <TextField
                   id="standard-basic"
                   label="French name"
                   margin="dense"
                   className={classes.text}
+<<<<<<< HEAD
                   onChange={handleFrenshName}
+=======
+                  onChange={() => setCategory(event.target.value)}
+>>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
                 />
                 <TextField
                   id="standard-basic"
