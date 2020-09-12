@@ -18,13 +18,6 @@ import LinearProgress  from "@material-ui/core/LinearProgress";
 const columns = [
   { id: 'title', label: 'Title', minWidth: 100 },
   {
-    id: 'subtitle',
-    label: 'Subtitle',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
     id: 'body',
     label: 'Body',
     minWidth: 270,
@@ -34,20 +27,6 @@ const columns = [
   {
     id: 'category',
     label: 'Category',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-  {
-    id: 'author',
-    label: 'Author',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-  {
-    id: 'status',
-    label: 'Status',
     minWidth: 170,
     align: 'right',
     format: (value) => value.toFixed(2),
@@ -65,7 +44,7 @@ const useStyles = makeStyles({
   tableHead: {backgroundColor: 'red'}
 });
 
-export default function NewsTable(props) {
+export default function RadioComponent(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -91,9 +70,9 @@ export default function NewsTable(props) {
     const fetchArticles = async () => {
       try { 
         setLoading(true);
-        const categories = await Axios.get('https://www.abbagospel.online/api/categories');
-      const categorieGroup = await Axios.get('https://www.abbagospel.online/api/group-categories');
-      const response = await Axios.get('https://www.abbagospel.online/api/news');
+        const categories = await Axios.get('https://www.abbagospel.online/api/radio/categories');
+      const categorieGroup = await Axios.get('https://www.abbagospel.online/api/radio/categories/group');
+      const response = await Axios.get('https://www.abbagospel.online/api/radio');
       // console.log('savagelove+++++++++++++++++++++++++++')
       // console.log('-------------->', response.data.data);
       setCategories(categories.data.data);
@@ -117,7 +96,7 @@ export default function NewsTable(props) {
       <CategoriesComponent
         categories={categories}
         categoriesGroup={categoriesGroup}
-        type="articles"
+        type="radio"
       />
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
@@ -140,7 +119,7 @@ export default function NewsTable(props) {
             </TableHead>
             <TableBody>
               {articles.length === 0
-                ? "No articles yet"
+                ? "No radio yet"
                 : articles
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((article) => {
@@ -150,15 +129,9 @@ export default function NewsTable(props) {
                           role="checkbox"
                           tabIndex={-1}
                           key={article.news_id}
-                          onClick={
-                            props.role === "admin" || props.role === "editor"
-                              ? () => {
-                                  setSingleArticle(article);
-                                }
-                              : () => console.log("souuu", props.role)
-                          }
+                          onClick={() =>  setSingleArticle(article)}
                           style={{
-                            cursor: props.role !== "admin" && props.role !== 'editor' ? "" : "pointer",
+                            cursor: "pointer",
                           }}
                         >
                           {columns.map((column) => {
@@ -177,7 +150,7 @@ export default function NewsTable(props) {
                       );
                     })}
               <EditNews
-                open={singleArticle.hasOwnProperty("news_id") ? true : false}
+                open={singleArticle.hasOwnProperty("id") ? true : false}
                 article={singleArticle}
                 categories={categories}
               />

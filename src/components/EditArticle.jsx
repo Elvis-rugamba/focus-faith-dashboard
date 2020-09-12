@@ -100,7 +100,7 @@ const EditNews = (props) => {
     try {
       const token = localStorage.getItem('token');
       const results = await Axios.patch(
-        `http://localhost:3000/api/edit-article/${props.article.news_id}`,
+        `https://www.abbagospel.online/api/edit-article/${props.article.news_id}`,
         {
           title: article.title ? article.title : props.article.title,
           subtitle: article.subtitle
@@ -144,13 +144,13 @@ const EditNews = (props) => {
 
     // replace cloudname with your Cloudinary cloud_name
     const results = await fetch(
-      "https://api.Cloudinary.com/v1_1/focus-faith-family/image/upload",
+      "https://www.abbagospel.online/api/news/upload",
       options
     );
     const response = await results.json();
     setLoading(false);
     console.log("uploaded!!!");
-    setArticle({ ...article, image: response.secure_url });
+    setArticle({ ...article, image: response.url });
   };
 
   const handleBody = (event) => {

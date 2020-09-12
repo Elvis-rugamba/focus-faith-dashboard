@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-const AddNews = (props) => {
+const AddRadio = (props) => {
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     // const [modalStyle] = React.useState(getModalStyle);
@@ -60,15 +60,16 @@ const AddNews = (props) => {
     });
     const [article, setArticle] = React.useState({
         title: null,
-        subtitle: null,
         body: null,
-        author: null,
         category: null,
-        image: null,
-        bodyHtml: null
+        cover: null,
+        bodyHtml: null,
+        url: null,
+        language: null
     });
     const [toast, setToast] = React.useState({message: '', open: false, type: ''})
     const [loading, setLoading] = React.useState(false)
+    const [loadingSubmit, setLoadingSubmit] = React.useState(false)
     useEffect(() => {
         const token = localStorage.getItem("token");
         const { payload } = verifyToken(token);
@@ -80,23 +81,32 @@ const AddNews = (props) => {
         
     };
 
+    const handleLanguage = (event) => {
+      setArticle({...article, language: event.target.value});
+      
+  };
+
     const handleNewArticle = async () => {
         try {
+          setLoadingSubmit(true)
           const results = await Axios.post(
-            "https://www.abbagospel.online/api/new-article",
+            "https://www.abbagospel.online/api/radio",
             {
               title: article.title,
-              subtitle: article.subtitle,
               body: content,
-              author: `${user.firstName} ${user.lastName}`,
+              host: article.host,
               category: article.category,
-              image: article.image,
+              cover: article.image,
+              url: article.url,
+              language: article.language,
               bodyhtml: article.bodyHtml
             }
           );
+          setLoadingSubmit(false)
           setToast({message: 'Article submitted successfully to the editor!', open: true, type: 'success'});
           window.location.reload();
         } catch (error) {
+          setLoadingSubmit(false)
           setToast({message: error.message, open: true, type: 'error'})
         }
     };
@@ -105,20 +115,38 @@ const AddNews = (props) => {
       setLoading(true);
         const { files } = document.querySelector('input[type="file"]')
         const formData = new FormData();
-        formData.append('file', files[0]);
+        formData.append('cover', files[0]);
         // replace this with your upload preset name
-        formData.append('upload_preset', 'focus_faith');
         const options = {
           method: 'POST',
           body: formData,
         };
         
         // replace cloudname with your Cloudinary cloud_name
-        const results = await fetch('https://www.abbagospel.online/api/news/upload', options);
+        const results = await fetch('https://www.abbagospel.online/api/radio/cover', options);
         const response = await results.json();
         setLoading(false);
         console.log('uploaded!!!');
         setArticle({...article, image: response.url});
+    }
+
+    const handleVideoUpload = async () => {
+      setLoading(true);
+        const { files } = document.querySelector('input[type="file"]')
+        const formData = new FormData();
+        formData.append('radio', files[0]);
+        // replace this with your upload preset name
+        const options = {
+          method: 'POST',
+          body: formData,
+        };
+        
+        // replace cloudname with your Cloudinary cloud_name
+        const results = await fetch('https://www.abbagospel.online/api/radio/upload', options);
+        const response = await results.json();
+        setLoading(false);
+        console.log('uploaded!!!');
+        setArticle({...article, url: response.url});
     }
 
     const handleBody = (event) => {
@@ -128,11 +156,6 @@ const AddNews = (props) => {
     const handleText = (event) => {
         setArticle({...article,
             title: event.target.value,
-        })
-    };
-    const handleSub = (event) => {
-        setArticle({...article,
-            subtitle: event.target.value,
         })
     };
 
@@ -178,18 +201,10 @@ const AddNews = (props) => {
                   onChange={handleText}
                   required
                 />
-                <TextField
-                  id="standard-basic"
-                  label="Subtitle"
-                  margin="dense"
-                  className={classes.text}
-                  onChange={handleSub}
-                  required
-                />
                 <br />
                 <FormControl className={classes.formControl}>
                   <InputLabel id="demo-simple-select-label">
-                    Category
+                    Category *
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
@@ -210,12 +225,12 @@ const AddNews = (props) => {
                 </FormControl>
                 <FormControl className={classes.formControl}>
                   <InputLabel id="demo-simple-select-label">
-                    Language
+                    Language *
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    onChange={handleChange}
+                    onChange={handleLanguage}
                     label="Language"
                   >
                           <MenuItem value="en-GB">
@@ -229,12 +244,12 @@ const AddNews = (props) => {
                           </MenuItem>
                   </Select>
                 </FormControl>
+                <br />
                 <input
                   type="file"
                   style={{
                     width: "190px",
                     marginTop: "30px",
-                    marginLeft: "80px",
                     marginRight: "-1px",
                   }}
                   required
@@ -251,7 +266,31 @@ const AddNews = (props) => {
                     color="secondary"
                     style={{ display: loading ? "" : "none" }}
                   />
-                  {loading ? "" : !article.image ? "Upload" : "Image uploaded"}
+                  {loading ? "" : !article.image ? "Upload Cover" : "Cover uploaded"}
+                </Button>
+                <input
+                  type="file"
+                  style={{
+                    width: "190px",
+                    marginTop: "30px",
+                    marginLeft: "30px",
+                    marginRight: "-1px",
+                  }}
+                  required
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  style={{ marginTop: "2px", fontSize: "8px" }}
+                  onClick={handleVideoUpload}
+                >
+                  <CircularProgress
+                    size={15}
+                    color="secondary"
+                    style={{ display: loading ? "" : "none" }}
+                  />
+                  {loading ? "" : !article.url ? "Upload Radio" : "Radio uploaded"}
                 </Button>
               </div>
               <JoditEditor
@@ -272,7 +311,12 @@ const AddNews = (props) => {
                 style={{ marginTop: "20px", fontSize: "12px" }}
                 onClick={handleNewArticle}
               >
-                Submit
+                Submit{' '}
+            <CircularProgress
+              size={15}
+              color="white"
+              style={{ display: loadingSubmit ? "" : "none", marginLeft: "2px" }}
+            />
               </Button>
             </Grid>
           </Container>
@@ -281,4 +325,4 @@ const AddNews = (props) => {
     );
 }
 
-export default AddNews;
+export default AddRadio;
