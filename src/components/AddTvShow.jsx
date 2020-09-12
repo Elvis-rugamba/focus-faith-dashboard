@@ -114,16 +114,10 @@ const AddTvShow = (props) => {
 
     const handleImageUpload = async () => {
       setLoading(true);
-<<<<<<< HEAD
       try {
         const { files } = document.querySelector('input[type="file"]')
         const formData = new FormData();
         formData.append('image', files[0]);
-=======
-        const { files } = document.querySelector('input[type="file"]')
-        const formData = new FormData();
-        formData.append('cover', files[0]);
->>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
         // replace this with your upload preset name
         const options = {
           method: 'POST',
@@ -136,14 +130,11 @@ const AddTvShow = (props) => {
         setLoading(false);
         console.log('uploaded!!!');
         setArticle({...article, image: response.url});
-<<<<<<< HEAD
       } catch (error) {
         setLoading(false);
         setToast({message: error.message, open: true, type: 'error'})
       }
         
-=======
->>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
     }
 
     const handleVideoUpload = async () => {

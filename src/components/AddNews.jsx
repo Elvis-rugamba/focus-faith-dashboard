@@ -223,20 +223,12 @@ const AddNews = (props) => {
                 </FormControl>
                 <FormControl className={classes.formControl}>
                   <InputLabel id="demo-simple-select-label">
-<<<<<<< HEAD
                     Language *
-=======
-                    Language
->>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-<<<<<<< HEAD
                     onChange={handleChangeLanguage}
-=======
-                    onChange={handleChange}
->>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
                     label="Language"
                   >
                           <MenuItem value="en-GB">

@@ -115,11 +115,7 @@ const AddMusic = (props) => {
       setLoading(true);
         const { files } = document.querySelector('input[type="file"]')
         const formData = new FormData();
-<<<<<<< HEAD
         formData.append('image', files[0]);
-=======
-        formData.append('cover', files[0]);
->>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
         // replace this with your upload preset name
         const options = {
           method: 'POST',

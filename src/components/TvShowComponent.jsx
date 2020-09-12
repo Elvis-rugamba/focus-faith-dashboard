@@ -103,11 +103,7 @@ export default function TvShowComponent(props) {
       <CategoriesComponent
         categories={categories}
         categoriesGroup={categoriesGroup}
-<<<<<<< HEAD
         type="tv shows"
-=======
-        type="tv show"
->>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
       />
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>

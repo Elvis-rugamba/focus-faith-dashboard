@@ -115,11 +115,7 @@ const AddRadio = (props) => {
       setLoading(true);
         const { files } = document.querySelector('input[type="file"]')
         const formData = new FormData();
-<<<<<<< HEAD
         formData.append('image', files[0]);
-=======
-        formData.append('cover', files[0]);
->>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
         // replace this with your upload preset name
         const options = {
           method: 'POST',
@@ -195,11 +191,7 @@ const AddRadio = (props) => {
                   {toast.message}
                 </Alert>
               </Snackbar>
-<<<<<<< HEAD
               <h3>Post a radio</h3>
-=======
-              <h3>Post a new article</h3>
->>>>>>> 94ac45905c0f47c7d196321191cba83f937a1155
               <div style={{ marginBottom: "20px" }}>
                 <TextField
                   id="standard-basic"
