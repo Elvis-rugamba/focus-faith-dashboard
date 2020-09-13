@@ -376,7 +376,7 @@ const EditNews = (props) => {
             </Button>
             <Button
               variant="contained"
-              color="danger"
+              color="secondary"
               size="small"
               style={{ marginTop: "20px", marginLeft: "20px", fontSize: "12px" }}
               onClick={handleDeleteArticle}
