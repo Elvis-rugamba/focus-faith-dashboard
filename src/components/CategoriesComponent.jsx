@@ -102,12 +102,12 @@ const handleRwandanName = (event) => {
        );
        console.log("heree we go", results);
        setLoading(false)
-       window.location.reload();
        setToast({
          message: "Category created successfully!",
          open: true,
          type: "success",
        });
+       window.location.reload();
      } catch (error) {
        setLoading(false)
        if (error.response) {

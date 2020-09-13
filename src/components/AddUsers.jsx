@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import {
   Grid,
   TextField,
@@ -59,7 +60,7 @@ export default function AddUser(props) {
     open: false,
     type: "",
   });
-  const [loading, setLoading] = React.useState(false);
+  const [loadingSubmit, setLoadingSubmit] = React.useState(false);
 
   const handleChangeRole = (event) => {
     setUser({...user, role: event.target.value})
@@ -86,6 +87,7 @@ export default function AddUser(props) {
 
   const handleSubmit = async (event) => {
     try {
+      setLoadingSubmit(true)
           event.preventDefault();
           const results = await Axios.post(
             "https://www.abbagospel.online/api/new-user",
@@ -98,6 +100,7 @@ export default function AddUser(props) {
               password: user.password
             }
           );
+          setLoadingSubmit(false)
           setToast({
             message: "User created",
             open: true,
@@ -105,6 +108,7 @@ export default function AddUser(props) {
           });
           window.location.reload();
         } catch (error) {
+          setLoadingSubmit(false)
           if (error.response) {
             setToast({ message: error.response.data.message, open: true, type: "error" });
     
@@ -232,7 +236,12 @@ export default function AddUser(props) {
                 style={{ marginTop: "20px", fontSize: "12px" }}
                 onClick={handleSubmit}
               >
-                Create User
+                Create User{' '}
+            <CircularProgress
+              size={15}
+              color="white"
+              style={{ display: loadingSubmit ? "" : "none", marginLeft: "2px" }}
+            />
               </Button>
             </Grid>
           </Container>

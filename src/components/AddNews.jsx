@@ -295,7 +295,12 @@ const AddNews = (props) => {
                 style={{ marginTop: "20px", fontSize: "12px" }}
                 onClick={handleNewArticle}
               >
-                Submit
+                Submit{' '}
+            <CircularProgress
+              size={15}
+              color="white"
+              style={{ display: loadingSubmit ? "" : "none", marginLeft: "2px" }}
+            />
               </Button>
             </Grid>
           </Container>
