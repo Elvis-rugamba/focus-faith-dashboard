@@ -118,7 +118,7 @@ const EditNews = (props) => {
           bodyhtml: article.bodyHtml
             ? article.bodyHtml
             : props.article.bodyhtml,
-          bodyhtml: article.language
+          language: article.language
               ? article.language
               : props.article.language,
         },
