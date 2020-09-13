@@ -75,6 +75,8 @@ const EditNews = (props) => {
     type: "",
   });
   const [loading, setLoading] = React.useState(false);
+  const [loadingSubmit, setLoadingSubmit] = React.useState(false);
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     const { payload } = verifyToken(token);
@@ -90,14 +92,17 @@ const EditNews = (props) => {
   }, []);
 
   const handleChange = (event) => {
-    console.log('sajdadaad', foundArticle, props)
     setArticle({...article, category: event.target.value})
-    console.log("awkward", foundArticle);
+  };
+
+  const handleChange = (event) => {
+    setArticle({...article, language: event.target.value})
   };
 
 
   const handleEditArticle = async () => {
     try {
+      setLoadingSubmit(true)
       const token = localStorage.getItem('token');
       const results = await Axios.patch(
         `https://www.abbagospel.online/api/edit-article/${props.article.news_id}`,
@@ -113,11 +118,15 @@ const EditNews = (props) => {
           bodyhtml: article.bodyHtml
             ? article.bodyHtml
             : props.article.bodyhtml,
+          bodyhtml: article.language
+              ? article.language
+              : props.article.language,
         },
         {
           headers: { auth: `${token}` },
         }
       );
+      setLoadingSubmit(false)
       setToast({
         message: "Article edited and posted successfully!",
         open: true,
@@ -126,17 +135,51 @@ const EditNews = (props) => {
       window.location.reload();
 
     } catch (error) {
-      setToast({ message: error.message, open: true, type: "error" });
+      setLoadingSubmit(false)
+      if (error.response) {
+        setToast({ message: error.response.data.message, open: true, type: "error" });
+
+       } else {
+        setToast({ message: error.message, open: true, type: "error" });
+       }
+    }
+  };
+
+  const handleEditArticle = async () => {
+    try {
+      setLoadingDelete(true)
+      const token = localStorage.getItem('token');
+      const results = await Axios.delete(
+        `https://www.abbagospel.online/api/news/${props.article.news_id}`,
+        {
+          headers: { auth: `${token}` },
+        }
+      );
+      setLoadingDelete(false)
+      setToast({
+        message: "Article deleted successfully!",
+        open: true,
+        type: "success",
+      });
+      window.location.reload();
+
+    } catch (error) {
+      setLoadingDelete(false)
+      if (error.response) {
+        setToast({ message: error.response.data.message, open: true, type: "error" });
+
+       } else {
+        setToast({ message: error.message, open: true, type: "error" });
+       }
     }
   };
 
   const handleImageUpload = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
     const { files } = document.querySelector('input[type="file"]');
     const formData = new FormData();
     formData.append("file", files[0]);
-    // replace this with your upload preset name
-    formData.append("upload_preset", "focus_faith");
     const options = {
       method: "POST",
       body: formData,
@@ -151,11 +194,20 @@ const EditNews = (props) => {
     setLoading(false);
     console.log("uploaded!!!");
     setArticle({ ...article, image: response.url });
+    } catch (error) {
+      setLoading(false)
+        if (error.response) {
+          setToast({ message: error.response.data.message, open: true, type: "error" });
+  
+         } else {
+          setToast({ message: error.message, open: true, type: "error" });
+         }
+    }
+    
   };
 
   const handleBody = (event) => {
     setArticle({ ...article, bodyHtml: event });
-    console.log("runnnnnn", event.toString("html"));
   };
   const handleText = (event) => {
     setArticle({ ...article, title: event.target.value });
@@ -167,7 +219,6 @@ const EditNews = (props) => {
 
   return (
     <div>
-      {console.log("heeeeeeeeeeeeeeee", props.article)}
       <Modal
         open={props.open}
         onClose={props.onClose}
@@ -220,7 +271,7 @@ const EditNews = (props) => {
               />
               <br />
               <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <InputLabel id="demo-simple-select-label">Category *</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -239,10 +290,58 @@ const EditNews = (props) => {
                           {category.category_name}
                         </MenuItem>
                       );
-                      // <MenuItem value="LifeStyle">LifeStyle</MenuItem>
                     })}
                 </Select>
               </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Language *</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={
+                    !article.language
+                      ? props.article.language
+                      : article.language
+                  }
+                  onChange={handleLanguageChange}
+                  label="Language"
+                >
+                        <MenuItem value="en-GB">
+                            English
+                          </MenuItem>
+                          <MenuItem value="fr-FR">
+                            Francais
+                          </MenuItem>
+                          <MenuItem value="ki-RW">
+                            Kinyarwanda
+                          </MenuItem>
+                </Select>
+              </FormControl>
+              <br />
+              <input
+                  type="file"
+                  style={{
+                    width: "190px",
+                    marginTop: "30px",
+                    marginLeft: "80px",
+                    marginRight: "-1px",
+                  }}
+                  required
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  style={{ marginTop: "2px", fontSize: "8px" }}
+                  onClick={handleImageUpload}
+                >
+                  <CircularProgress
+                    size={15}
+                    color="secondary"
+                    style={{ display: loading ? "" : "none" }}
+                  />
+                  {loading ? "" : !article.image ? "Upload new image" : "Image uploaded"}
+                </Button>
               <TextField
                 id="standard-basic"
                 label="Author"
@@ -270,7 +369,26 @@ const EditNews = (props) => {
               style={{ marginTop: "20px", fontSize: "12px" }}
               onClick={handleEditArticle}
             >
-              Submit & Post
+              Submit & Post{' '}
+            <CircularProgress
+              size={15}
+              color="white"
+              style={{ display: loadingSubmit ? "" : "none", marginLeft: "2px" }}
+            />
+            </Button>
+            <Button
+              variant="contained"
+              color="danger"
+              size="small"
+              style={{ marginTop: "20px", marginLeft: "20px", fontSize: "12px" }}
+              onClick={handleDeleteArticle}
+            >
+              Delete{' '}
+            <CircularProgress
+              size={15}
+              color="white"
+              style={{ display: loadingDelete ? "" : "none", marginLeft: "2px" }}
+            />
             </Button>
           </Grid>
         </Container>
