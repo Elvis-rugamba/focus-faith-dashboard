@@ -105,8 +105,12 @@ export default function AddUser(props) {
           });
           window.location.reload();
         } catch (error) {
-          if(error.response.status === 409) return setToast({message: error.response.data.message, open: true, type: 'error'})
-          return error.message;
+          if (error.response) {
+            setToast({ message: error.response.data.message, open: true, type: "error" });
+    
+           } else {
+            setToast({ message: error.message, open: true, type: "error" });
+           }
         }
   };
   return (

@@ -106,7 +106,12 @@ const AddNews = (props) => {
           window.location.reload();
         } catch (error) {
           setLoadingSubmit(false)
-          setToast({message: error.message, open: true, type: 'error'})
+          if (error.response) {
+            setToast({ message: error.response.data.message, open: true, type: "error" });
+    
+           } else {
+            setToast({ message: error.message, open: true, type: "error" });
+           }
         }
     };
 
@@ -129,7 +134,12 @@ const AddNews = (props) => {
         setArticle({...article, image: response.url});
       } catch (error) {
         setLoading(false)
-          setToast({message: error.message, open: true, type: 'error'})
+        if (error.response) {
+          setToast({ message: error.response.data.message, open: true, type: "error" });
+  
+         } else {
+          setToast({ message: error.message, open: true, type: "error" });
+         }
       }
       
     }
