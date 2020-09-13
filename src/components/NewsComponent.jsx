@@ -118,6 +118,7 @@ export default function NewsTable(props) {
         categories={categories}
         categoriesGroup={categoriesGroup}
         type="articles"
+        onClose={props.onClose}
       />
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
@@ -180,6 +181,7 @@ export default function NewsTable(props) {
                 open={singleArticle.hasOwnProperty("news_id") ? true : false}
                 article={singleArticle}
                 categories={categories}
+                onClose={props.onClose}
               />
             </TableBody>
           </Table>

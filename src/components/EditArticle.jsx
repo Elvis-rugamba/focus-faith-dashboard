@@ -323,8 +323,6 @@ const EditNews = (props) => {
                   style={{
                     width: "190px",
                     marginTop: "30px",
-                    marginLeft: "80px",
-                    marginRight: "-1px",
                   }}
                   required
                 />
