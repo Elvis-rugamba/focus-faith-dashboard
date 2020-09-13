@@ -102,7 +102,12 @@ export default function NewsTable(props) {
       setLoading(false);
       } catch (error) {
         setLoading(false);
-        setToast({message: error.message, open: true, type: 'error'})
+        if (error.response) {
+          setToast({ message: error.response.data.message, open: true, type: "error" });
+  
+         } else {
+          setToast({ message: error.message, open: true, type: "error" });
+         }
       }
       
     }
@@ -151,15 +156,9 @@ export default function NewsTable(props) {
                           role="checkbox"
                           tabIndex={-1}
                           key={article.news_id}
-                          onClick={
-                            props.role === "admin" || props.role === "editor"
-                              ? () => {
-                                  setSingleArticle(article);
-                                }
-                              : () => console.log("souuu", props.role)
-                          }
+                          onClick={() => setSingleArticle(article)}
                           style={{
-                            cursor: props.role !== "admin" && props.role !== 'editor' ? "" : "pointer",
+                            cursor: "pointer",
                           }}
                         >
                           {columns.map((column) => {

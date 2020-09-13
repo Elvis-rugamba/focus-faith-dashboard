@@ -67,6 +67,7 @@ const EditNews = (props) => {
     category: null,
     image: null,
     bodyHtml: null,
+    language: null
   });
   const [foundArticle, setFoundArticleId] = React.useState(props.article)
   const [toast, setToast] = React.useState({
@@ -101,6 +102,7 @@ const EditNews = (props) => {
 
 
   const handleEditArticle = async () => {
+    console.log('Articleeeeeeee', props.article);
     try {
       setLoadingSubmit(true)
       const token = localStorage.getItem('token');
@@ -119,11 +121,11 @@ const EditNews = (props) => {
             ? article.bodyHtml
             : props.article.bodyhtml,
           language: article.language
-              ? article.language
-              : props.article.language,
+            ? article.language
+            : props.article.language,
           image: article.image
-              ? article.image
-              : props.article.image,
+            ? article.image
+            : props.article.image,
         },
         {
           headers: { auth: `${token}` },
@@ -182,7 +184,7 @@ const EditNews = (props) => {
       setLoading(true);
     const { files } = document.querySelector('input[type="file"]');
     const formData = new FormData();
-    formData.append("file", files[0]);
+    formData.append("image", files[0]);
     const options = {
       method: "POST",
       body: formData,
