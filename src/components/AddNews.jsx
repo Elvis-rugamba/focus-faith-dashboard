@@ -65,7 +65,8 @@ const AddNews = (props) => {
         author: null,
         category: null,
         image: null,
-        bodyHtml: null
+        bodyHtml: null,
+        language: null,
     });
     const [toast, setToast] = React.useState({message: '', open: false, type: ''})
     const [loading, setLoading] = React.useState(false)
@@ -98,7 +99,8 @@ const AddNews = (props) => {
               author: `${user.firstName} ${user.lastName}`,
               category: article.category,
               image: article.image,
-              bodyhtml: article.bodyHtml
+              bodyhtml: article.bodyHtml,
+              language: article.language,
             }
           );
           setLoadingSubmit(false)
