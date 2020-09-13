@@ -95,7 +95,7 @@ const EditNews = (props) => {
     setArticle({...article, category: event.target.value})
   };
 
-  const handleChange = (event) => {
+  const handleLanguageChange = (event) => {
     setArticle({...article, language: event.target.value})
   };
 
