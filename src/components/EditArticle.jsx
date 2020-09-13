@@ -121,6 +121,9 @@ const EditNews = (props) => {
           language: article.language
               ? article.language
               : props.article.language,
+          image: article.image
+              ? article.image
+              : props.article.image,
         },
         {
           headers: { auth: `${token}` },
