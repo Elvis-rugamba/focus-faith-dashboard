@@ -89,6 +89,7 @@ const AddRadio = (props) => {
     const handleNewArticle = async () => {
         try {
           setLoadingSubmit(true)
+          const token = localStorage.getItem("token");
           const results = await Axios.post(
             "https://www.abbagospel.online/api/radio",
             {
@@ -100,6 +101,11 @@ const AddRadio = (props) => {
               url: article.url,
               language: article.language,
               bodyhtml: article.bodyHtml
+            },
+            {
+              headers: { 
+               auth: `${token}`
+             },
             }
           );
           setLoadingSubmit(false)

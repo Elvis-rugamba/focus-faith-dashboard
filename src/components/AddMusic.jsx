@@ -90,6 +90,7 @@ const AddMusic = (props) => {
     const handleNewArticle = async () => {
         try {
           setLoadingSubmit(true)
+          const token = localStorage.getItem("token");
           const results = await Axios.post(
             "https://www.abbagospel.online/api/musics",
             {
@@ -100,6 +101,11 @@ const AddMusic = (props) => {
               cover: article.image,
               url: article.url,
               language: article.language,
+            },
+            {
+              headers: { 
+               auth: `${token}`
+             },
             }
           );
           setLoadingSubmit(false)
