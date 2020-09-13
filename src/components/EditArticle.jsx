@@ -145,7 +145,7 @@ const EditNews = (props) => {
     }
   };
 
-  const handleEditArticle = async () => {
+  const handleDeleteArticle = async () => {
     try {
       setLoadingDelete(true)
       const token = localStorage.getItem('token');
