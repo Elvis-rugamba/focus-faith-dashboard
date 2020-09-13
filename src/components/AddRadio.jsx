@@ -119,7 +119,7 @@ const AddRadio = (props) => {
     const handleImageUpload = async () => {
       try {
         setLoading(true);
-        const { files } = document.querySelector('input[type="file"]')
+        const { files } = document.querySelector('#cover')
         const formData = new FormData();
         formData.append('image', files[0]);
         // replace this with your upload preset name
@@ -149,7 +149,7 @@ const AddRadio = (props) => {
     const handleVideoUpload = async () => {
       try {
         setLoading(true);
-        const { files } = document.querySelector('input[type="file"]')
+        const { files } = document.querySelector('#radio')
         const formData = new FormData();
         formData.append('radio', files[0]);
         // replace this with your upload preset name
@@ -274,6 +274,7 @@ const AddRadio = (props) => {
                 <br />
                 <input
                   type="file"
+                  id="cover"
                   style={{
                     width: "190px",
                     marginTop: "30px",
@@ -297,6 +298,7 @@ const AddRadio = (props) => {
                 </Button>
                 <input
                   type="file"
+                  id="radio"
                   style={{
                     width: "190px",
                     marginTop: "30px",

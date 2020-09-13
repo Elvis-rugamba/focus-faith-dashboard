@@ -119,7 +119,7 @@ const AddMusic = (props) => {
     const handleImageUpload = async () => {
       try {
         setLoading(true);
-        const { files } = document.querySelector('input[type="file"]')
+        const { files } = document.querySelector('#cover')
         const formData = new FormData();
         formData.append('image', files[0]);
         // replace this with your upload preset name
@@ -149,7 +149,7 @@ const AddMusic = (props) => {
     const handleVideoUpload = async () => {
       try {
         setLoading(true);
-        const { files } = document.querySelector('input[type="file"]')
+        const { files } = document.querySelector('#music')
         const formData = new FormData();
         formData.append('music', files[0]);
         // replace this with your upload preset name
@@ -301,6 +301,7 @@ const AddMusic = (props) => {
                 <br />
                 <input
                   type="file"
+                  id="cover"
                   style={{
                     width: "190px",
                     marginTop: "30px",
@@ -324,6 +325,7 @@ const AddMusic = (props) => {
                 </Button>
                 <input
                   type="file"
+                  id="music"
                   style={{
                     width: "190px",
                     marginTop: "30px",

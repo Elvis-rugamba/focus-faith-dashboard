@@ -120,7 +120,7 @@ const AddTvShow = (props) => {
     const handleImageUpload = async () => {
       setLoading(true);
       try {
-        const { files } = document.querySelector('input[type="file"]')
+        const { files } = document.querySelector('#cover')
         const formData = new FormData();
         formData.append('image', files[0]);
         // replace this with your upload preset name
@@ -150,7 +150,7 @@ const AddTvShow = (props) => {
     const handleVideoUpload = async () => {
       try {
         setLoading(true);
-        const { files } = document.querySelector('input[type="file"]')
+        const { files } = document.querySelector('#tv')
         const formData = new FormData();
         formData.append('tv', files[0]);
         // replace this with your upload preset name
@@ -288,6 +288,7 @@ const AddTvShow = (props) => {
                 <br />
                 <input
                   type="file"
+                  id="cover"
                   style={{
                     width: "190px",
                     marginTop: "30px",
@@ -311,6 +312,7 @@ const AddTvShow = (props) => {
                 </Button>
                 <input
                   type="file"
+                  id="tv"
                   style={{
                     width: "190px",
                     marginTop: "30px",
