@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-const AddNews = (props) => {
+const AddVerse = (props) => {
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     // const [modalStyle] = React.useState(getModalStyle);
@@ -59,14 +59,9 @@ const AddNews = (props) => {
         lastName: ''
     });
     const [article, setArticle] = React.useState({
-        title: null,
-        subtitle: null,
         body: null,
-        author: null,
-        category: null,
-        image: null,
-        bodyHtml: null,
-        language: null,
+        frensh: null,
+        rwandan: null,
     });
     const [toast, setToast] = React.useState({message: '', open: false, type: ''})
     const [loading, setLoading] = React.useState(false)
@@ -90,27 +85,16 @@ const AddNews = (props) => {
     const handleNewArticle = async () => {
         try {
           setLoadingSubmit(true)
-          const token = localStorage.getItem('token');
           const results = await Axios.post(
-            "https://www.abbagospel.online/api/new-article",
+            "https://www.abbagospel.online/api/verses",
             {
-              title: article.title,
-              subtitle: article.subtitle,
-              body: content,
-              author: `${user.firstName} ${user.lastName}`,
-              category: article.category,
-              image: article.image,
-              bodyhtml: article.bodyHtml,
-              language: article.language,
+              body: article.body,
+              french: article.frensh,
+              rwandan: article.rwandan,
             },
-            {
-              headers: { 
-               auth: `${token}`
-             },
-            }
           );
           setLoadingSubmit(false)
-          setToast({message: 'Article submitted successfully to the editor!', open: true, type: 'success'});
+          setToast({message: 'Verse of the day submitted successfully!', open: true, type: 'success'});
           window.location.reload();
         } catch (error) {
           setLoadingSubmit(false)
@@ -123,47 +107,21 @@ const AddNews = (props) => {
         }
     };
 
-    const handleImageUpload = async () => {
-      try {
-        setLoading(true);
-        const { files } = document.querySelector('input[type="file"]')
-        const formData = new FormData();
-        formData.append('image', files[0]);
-        const options = {
-          method: 'POST',
-          body: formData,
-        };
-        
-        // replace cloudname with your Cloudinary cloud_name
-        const results = await fetch('https://www.abbagospel.online/api/news/upload', options);
-        const response = await results.json();
-        setLoading(false);
-        console.log('uploaded!!!');
-        setArticle({...article, image: response.url});
-      } catch (error) {
-        setLoading(false)
-        if (error.response) {
-          setToast({ message: error.response.data.message, open: true, type: "error" });
-  
-         } else {
-          setToast({ message: error.message, open: true, type: "error" });
-         }
-      }
-      
-    }
-
-    const handleBody = (event) => {
-      console.log('eeent', event);
-        setArticle({...article, bodyHtml: event});
-    };
-    const handleText = (event) => {
+    const handleEnglish = (event) => {
         setArticle({...article,
-            title: event.target.value,
+            body: event.target.value,
         })
     };
-    const handleSub = (event) => {
+    
+    const handleFrensh = (event) => {
         setArticle({...article,
-            subtitle: event.target.value,
+            frensh: event.target.value,
+        })
+    };
+    
+    const handleRwandan = (event) => {
+        setArticle({...article,
+            rwandan: event.target.value,
         })
     };
 
@@ -199,103 +157,47 @@ const AddNews = (props) => {
                   {toast.message}
                 </Alert>
               </Snackbar>
-              <h3>Post a new article</h3>
-              <div style={{ marginBottom: "20px" }}>
+              <h3>Post a verse of the day</h3>
+              <div style={{ marginBottom: "20px", width: "100%" }}>
                 <TextField
                   id="standard-basic"
-                  label="Title"
+                  label="English"
                   margin="dense"
+                  variant="outlined"
                   className={classes.text}
-                  onChange={handleText}
+                  onChange={handleEnglish}
+                  fullWidth
                   required
+                  multiline
+                  rows={4}
                 />
+                < br/>
                 <TextField
                   id="standard-basic"
-                  label="Subtitle"
+                  label="Frensh"
                   margin="dense"
+                  variant="outlined"
                   className={classes.text}
-                  onChange={handleSub}
+                  onChange={handleFrensh}
+                  fullWidth
                   required
+                  multiline
+                  rows={4}
                 />
                 <br />
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-label">
-                    Category *
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={article.category ? article.category : ""}
-                    onChange={handleChange}
-                    label="Category"
-                  >
-                    {props.categories &&
-                      props.categories.map((category) => {
-                        return (
-                          <MenuItem value={`${category.category_name}`}>
-                            {category.category_name}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
-                </FormControl>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-label">
-                    Language *
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    onChange={handleChangeLanguage}
-                    label="Language"
-                  >
-                          <MenuItem value="en-GB">
-                            English
-                          </MenuItem>
-                          <MenuItem value="fr-FR">
-                            Francais
-                          </MenuItem>
-                          <MenuItem value="ki-RW">
-                            Kinyarwanda
-                          </MenuItem>
-                  </Select>
-                </FormControl>
-                <input
-                  type="file"
-                  style={{
-                    width: "190px",
-                    marginTop: "30px",
-                    marginLeft: "80px",
-                    marginRight: "-1px",
-                  }}
+                <TextField
+                  id="standard-basic"
+                  label="Kinyarwanda"
+                  margin="dense"
+                  variant="outlined"
+                  className={classes.text}
+                  onChange={handleRwandan}
+                  fullWidth
                   required
+                  multiline
+                  rows={4}
                 />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  style={{ marginTop: "2px", fontSize: "8px" }}
-                  onClick={handleImageUpload}
-                >
-                  <CircularProgress
-                    size={15}
-                    color="secondary"
-                    style={{ display: loading ? "" : "none" }}
-                  />
-                  {loading ? "" : !article.image ? "Upload" : "Image uploaded"}
-                </Button>
               </div>
-              <JoditEditor
-                ref={editor}
-                value={article.bodyHtml}
-                config={config}
-                tabIndex={1} // tabIndex of textarea
-                onBlur={(newContent) => {
-                  setContent(newContent.target.textContent);
-                  setArticle({ ...article, bodyHtml: newContent.target.innerHTML });
-                  
-                }} // preferred to use only this option to update the content for performance reasons
-              />
               <Button
                 variant="contained"
                 color="primary"
@@ -317,4 +219,4 @@ const AddNews = (props) => {
     );
 }
 
-export default AddNews;
+export default AddVerse;

@@ -85,13 +85,12 @@ const handleRwandanName = (event) => {
         linkUrl = "https://www.abbagospel.online/api/new-category"
       }
       
-      console.log("linkUrl", linkUrl);
        const token = localStorage.getItem("token");
        const results = await Axios.post(
          linkUrl,
          {
            categoryName: category.categoryName,
-           frenshName: category.frenshName,
+           frenchName: category.frenshName,
            rwandanName: category.rwandanName
          },
          {

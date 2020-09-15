@@ -46,9 +46,11 @@ import Axios from 'axios';
 import TvShowComponent from "./TvShowComponent.jsx";
 import MusicComponent from "./MusicComponent.jsx";
 import RadioComponent from "./RadioComponent.jsx";
+import VersesComponent from './VersesComponent.jsx';
 import AddTvShow from './AddTvShow.jsx';
 import AddMusic from './AddMusic.jsx';
 import AddRadio from './AddRadio.jsx';
+import AddVerse from './AddVerse.jsx';
 
 const drawerWidth = 240;
 
@@ -135,6 +137,7 @@ const Dashboard = () => {
   let location = useLocation();
   const [open, setOpen] = React.useState(false);
   const [openNewsModal, setOpenNewsModal] = React.useState(false);
+  const [openVerseModal, setOpenVerseModal] = React.useState(false);
   const [openTvShowModal, setOpenTvShowModal] = React.useState(false);
   const [openMusicModal, setOpenMusicModal] = React.useState(false);
   const [openRadioModal, setOpenRadioModal] = React.useState(false);
@@ -224,6 +227,11 @@ const Dashboard = () => {
           categories={categories}
           onClose={() => setOpenNewsModal(false)}
         />
+        <AddVerse
+          open={openVerseModal}
+          categories={categories}
+          onClose={() => setOpenVerseModal(false)}
+        />
         <AddTvShow
           open={openTvShowModal}
           categories={tvCategories}
@@ -279,6 +287,14 @@ const Dashboard = () => {
                 path: "/news",
                 onClick: () => setPath("/news"),
               },
+              role === "admin"
+                ? {
+                    text: "Verse of the day",
+                    icon: <PeopleAltRoundedIcon />,
+                    path: "/verses",
+                    onClick: () => setPath("/verses"),
+                  }
+                : "",
               { 
                 text: "TV Shows", 
                 icon: <TvIcon />, 
@@ -341,6 +357,7 @@ const Dashboard = () => {
                 <NewsTable {...props} role={role ? role : "writer"} />
               )}
             />
+            <Route path="/verses" render={(props) => (<VersesComponent {...props} role={role ? role : "writer"} />)} />
             <Route path="/tvShow" render={(props) => (<TvShowComponent {...props} role={role ? role : "writer"} />)} />
             <Route path="/music" render={(props) => (<MusicComponent {...props} role={role ? role : "writer"} />)} />
             <Route path="/radio" render={(props) => (<RadioComponent {...props} role={role ? role : "writer"} />)} />
@@ -360,6 +377,7 @@ const Dashboard = () => {
                 setOpenMusicModal(false);
                 setOpenRadioModal(false);
                 setOpenUserModal(false);
+                setOpenVerseModal(false);
                 return;
               } else if (window.location.pathname === "/tvShow") {
                 setOpenNewsModal(false);
@@ -367,6 +385,7 @@ const Dashboard = () => {
                 setOpenMusicModal(false);
                 setOpenRadioModal(false);
                 setOpenUserModal(false);
+                setOpenVerseModal(false);
                 return;
               } else if (window.location.pathname === "/music") {
                 setOpenNewsModal(false);
@@ -374,6 +393,7 @@ const Dashboard = () => {
                 setOpenMusicModal(true);
                 setOpenRadioModal(false);
                 setOpenUserModal(false);
+                setOpenVerseModal(false);
                 return;
               } else if (window.location.pathname === "/radio") {
                 setOpenNewsModal(false);
@@ -381,6 +401,7 @@ const Dashboard = () => {
                 setOpenMusicModal(false);
                 setOpenRadioModal(true);
                 setOpenUserModal(false);
+                setOpenVerseModal(false);
                 return;
               } else if (window.location.pathname === "/users") {
                 setOpenNewsModal(false);
@@ -388,6 +409,15 @@ const Dashboard = () => {
                 setOpenMusicModal(false);
                 setOpenRadioModal(false);
                 setOpenUserModal(true);
+                setOpenVerseModal(false);
+                return;
+              } else if (window.location.pathname === "/verses") {
+                setOpenNewsModal(false);
+                setOpenTvShowModal(false);
+                setOpenMusicModal(false);
+                setOpenRadioModal(false);
+                setOpenUserModal(false);
+                setOpenVerseModal(true);
                 return;
               } else {
                 setOpenNewsModal(false);
@@ -395,6 +425,7 @@ const Dashboard = () => {
                 setOpenMusicModal(false);
                 setOpenRadioModal(false);
                 setOpenUserModal(false);
+                setOpenVerseModal(false);
                 return;
               }
             }}
