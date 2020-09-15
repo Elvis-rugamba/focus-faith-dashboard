@@ -38,6 +38,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import BibleIcon from "@material-ui/icons/Book";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -290,7 +291,7 @@ const Dashboard = () => {
               role === "admin"
                 ? {
                     text: "Verse of the day",
-                    icon: <PeopleAltRoundedIcon />,
+                    icon: <BibleIcon />,
                     path: "/verses",
                     onClick: () => setPath("/verses"),
                   }
@@ -324,7 +325,7 @@ const Dashboard = () => {
                   }
                 : "",
             ].map((item, index) => (
-              <Link to={item.path}>
+              <Link to={item.path} color="inherit">
                 <ListItem button key={item.text} onClick={item.onClick}>
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.text} />
