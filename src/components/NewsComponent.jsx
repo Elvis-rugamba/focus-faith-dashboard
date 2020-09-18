@@ -94,8 +94,6 @@ export default function NewsTable(props) {
         const categories = await Axios.get('https://www.abbagospel.online/api/categories');
       const categorieGroup = await Axios.get('https://www.abbagospel.online/api/group-categories');
       const response = await Axios.get('https://www.abbagospel.online/api/news');
-      // console.log('savagelove+++++++++++++++++++++++++++')
-      // console.log('-------------->', response.data.data);
       setCategories(categories.data.data);
       setCategoriesGroup(categorieGroup.data.data);
       setArticles(response.data.data);

@@ -48,6 +48,7 @@ import TvShowComponent from "./TvShowComponent.jsx";
 import MusicComponent from "./MusicComponent.jsx";
 import RadioComponent from "./RadioComponent.jsx";
 import VersesComponent from './VersesComponent.jsx';
+import DashboardComponent from './DashboardComponent.jsx'
 import AddTvShow from './AddTvShow.jsx';
 import AddMusic from './AddMusic.jsx';
 import AddRadio from './AddRadio.jsx';
@@ -177,12 +178,17 @@ const Dashboard = () => {
       setMusicCategories(musicCat.data.data);
       setRadioCategories(radioCat.data.data);
       } catch (error) {
-        
+        console.log(error);
+        if (error.response) {
+          setToast({
+            message: error.response.data.message,
+            open: true,
+            type: "error",
+          });
+        } else {
+          setToast({ message: error.message, open: true, type: "error" });
+        }
       }
-      
-      // console.log('savagelove+++++++++++++++++++++++++++')
-      // console.log('-------------->', response.data.data);
-      
     };
         fetchArticles();
   }, []);
@@ -352,8 +358,14 @@ const Dashboard = () => {
         <main className={classes.content}>
           <Switch>
             <Route
-              path="/news"
+              path="/"
               exact
+              render={(props) => (
+                <DashboardComponent {...props} role={role ? role : "writer"} />
+              )}
+            />
+            <Route
+              path="/news"
               render={(props) => (
                 <NewsTable {...props} role={role ? role : "writer"} />
               )}
@@ -366,12 +378,6 @@ const Dashboard = () => {
           </Switch>
           <FloatingActionButtons
             onClick={() => {
-              console.log(
-                "history",
-                window.location.pathname === "/",
-                "sleep",
-                path
-              );
               if (window.location.pathname === "/news") {
                 setOpenNewsModal(true);
                 setOpenTvShowModal(false);

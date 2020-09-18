@@ -27,7 +27,6 @@ export default function FloatingActionButtons(props) {
 
   return (
     <div className={classes.root}>
-      {console.log("weed", window.location.pathname === "/", props)}
       <Fab
         color="primary"
         aria-label="add"

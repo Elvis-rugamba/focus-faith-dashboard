@@ -99,7 +99,6 @@ const handleRwandanName = (event) => {
           },
          }
        );
-       console.log("heree we go", results);
        setLoading(false)
        setToast({
          message: "Category created successfully!",
@@ -119,8 +118,6 @@ const handleRwandanName = (event) => {
    }
     return (
       <>
-        {console.log("prrr", props)}
-
         <Modal
           open={open}
           onClose={props.onClose}
