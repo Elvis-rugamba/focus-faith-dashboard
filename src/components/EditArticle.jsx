@@ -20,6 +20,9 @@ import Axios from "axios";
 import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+import UploadAdapter from "../helpers/uploadAdapter";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,11 +45,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function UploadAdapterPlugin( editor ) {
+  editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+      // Configure the URL to the upload script in your back-end here!
+      return new UploadAdapter( loader );
+  };
+}
+
 const EditNews = (props) => {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   // const [modalStyle] = React.useState(getModalStyle);
   const editor = useRef(null);
+  const ckEditor = null;
   const [content, setContent] = React.useState("");
 
   const config = {
@@ -229,7 +240,13 @@ const EditNews = (props) => {
         onClose={props.onClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
-        style={{ position: "absolute", top: "50px", border: "none" }}
+        style={{ 
+          position: "absolute", 
+          top: "50px",
+          bottom: "50px", 
+          border: "none", 
+          overflow: "scroll" 
+        }}
       >
         <Container maxWidth="md">
           <Grid
@@ -354,7 +371,7 @@ const EditNews = (props) => {
                 disabled
               />
             </div>
-            <JoditEditor
+            {/* <JoditEditor
               ref={editor}
               value={props.article.bodyhtml}
               config={config}
@@ -364,6 +381,46 @@ const EditNews = (props) => {
                 console.log("whhhhhat", content);
               }} // preferred to use only this option to update the content for performance reasons
               onChange={handleBody}
+            /> */}
+            <CKEditor
+              editor={DecoupledEditor}
+              data={props.article.bodyhtml}
+              config={{
+                extraPlugins: [UploadAdapterPlugin],
+              }}
+              // onInit={editor => {
+              //         editor.plugins.get("FileRepository").createUploadAdapter = loader => {
+              //           return new UploadAdapter(loader);
+              //         };
+              //       }}
+              onReady={(editor) => {
+                // You can store the "editor" and use when it is needed.
+                console.log("Editor is ready to use!", editor);
+                // Insert the toolbar before the editable area.
+                editor.ui
+                  .getEditableElement()
+                  .parentElement.insertBefore(
+                    editor.ui.view.toolbar.element,
+                    editor.ui.getEditableElement()
+                  );
+
+                this.editor = ckEditor;
+              }}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                console.log({ event, editor, data });
+                setContent(data);
+              }}
+              onBlur={(event, editor) => {
+                console.log("Blur.", editor);
+                setArticle({
+                  ...article,
+                  bodyHtml: editor.getData(),
+                });
+              }}
+              onFocus={(event, editor) => {
+                console.log("Focus.", editor);
+              }}
             />
             <Button
               variant="contained"

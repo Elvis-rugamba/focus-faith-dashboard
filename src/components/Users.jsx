@@ -8,6 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import Axios from "axios";
 
 const columns = [
@@ -16,7 +17,6 @@ const columns = [
     id: "lastname",
     label: "Last Name",
     minWidth: 170,
-    align: "right",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     width: "100%",
   },
   container: {
-    marginTop: '90px',
+    marginTop: "90px",
     maxHeight: 440,
   },
   tableHead: { backgroundColor: "red" },
@@ -51,6 +51,7 @@ export default function UsersTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [users, setUsers] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -62,10 +63,27 @@ export default function UsersTable() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await Axios.get("http://localhost:3000/api/users");
-      // console.log('savagelove+++++++++++++++++++++++++++')
-      // console.log('-------------->', response.data.data);
-      setUsers(response.data.data);
+      try {
+        setLoading(true);
+        const response = await Axios.get(
+          "https://www.abbagospel.online/api/users"
+        );
+        // console.log('savagelove+++++++++++++++++++++++++++')
+        // console.log('-------------->', response.data.data);
+        setUsers(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        if (error.response) {
+          setToast({
+            message: error.response.data.message,
+            open: true,
+            type: "error",
+          });
+        } else {
+          setToast({ message: error.message, open: true, type: "error" });
+        }
+      }
     };
     fetchUsers();
   }, []);
@@ -74,6 +92,7 @@ export default function UsersTable() {
     <Paper className={classes.root}>
       {console.log("tryyyyyyyy", users)}
       <TableContainer className={classes.container}>
+        {loading ? <LinearProgress size={15} /> : ""}
         <Table stickyHeader aria-label="sticky table">
           <TableHead className={classes.tableHead}>
             <TableRow>
