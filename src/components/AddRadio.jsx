@@ -91,7 +91,7 @@ const AddRadio = (props) => {
           setLoadingSubmit(true)
           const token = localStorage.getItem("token");
           const results = await Axios.post(
-            "https://www.abbagospel.online/api/radio",
+            "https://www.abbagospel.fr/api/radio",
             {
               title: article.title,
               body: content,
@@ -135,7 +135,7 @@ const AddRadio = (props) => {
         };
         
         // replace cloudname with your Cloudinary cloud_name
-        const results = await fetch('https://www.abbagospel.online/api/radio/cover', options);
+        const results = await fetch('https://www.abbagospel.fr/api/radio/cover', options);
         const response = await results.json();
         setLoading(false);
         console.log('uploaded!!!');
@@ -165,7 +165,7 @@ const AddRadio = (props) => {
         };
         
         // replace cloudname with your Cloudinary cloud_name
-        const results = await fetch('https://www.abbagospel.online/api/radio/upload', options);
+        const results = await fetch('https://www.abbagospel.fr/api/radio/upload', options);
         const response = await results.json();
         setLoading(false);
         console.log('uploaded!!!');

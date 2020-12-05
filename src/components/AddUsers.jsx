@@ -89,7 +89,7 @@ export default function AddUser(props) {
       setLoadingSubmit(true)
           event.preventDefault();
           const results = await Axios.post(
-            "https://www.abbagospel.online/api/new-user",
+            "https://www.abbagospel.fr/api/new-user",
             {
               firstName: user.firstName,
               lastName: user.lastName,

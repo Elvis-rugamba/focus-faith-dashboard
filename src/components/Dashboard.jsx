@@ -162,16 +162,16 @@ const Dashboard = () => {
     const fetchArticles = async () => {
       try {
         const categories = await Axios.get(
-        "https://www.abbagospel.online/api/categories"
+        "https://www.abbagospel.fr/api/categories"
       );
       const tvCat = await Axios.get(
-        "https://www.abbagospel.online/api/tv/categories"
+        "https://www.abbagospel.fr/api/tv/categories"
       );
       const musicCat = await Axios.get(
-        "https://www.abbagospel.online/api/musics/categories"
+        "https://www.abbagospel.fr/api/musics/categories"
       );
       const radioCat = await Axios.get(
-        "https://www.abbagospel.online/api/radio/categories"
+        "https://www.abbagospel.fr/api/radio/categories"
       );
       setCategories(categories.data.data);
       setTvCategories(tvCat.data.data);

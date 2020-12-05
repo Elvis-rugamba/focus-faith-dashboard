@@ -36,7 +36,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://www.abbagospel.online">
+      <Link color="inherit" href="https://www.abbagospel.fr">
         Abbagospel
       </Link>{" "}
       {new Date().getFullYear()}
@@ -69,28 +69,28 @@ export default function NewsTable(props) {
         setLoading(true);
         const token = localStorage.getItem('token');
         const totalArticlesRes = await Axios.get(
-          "https://www.abbagospel.online/api/news/stats/total"
+          "https://www.abbagospel.fr/api/news/stats/total"
         );
         const totalPendingArticlesRes = await Axios.get(
-          "https://www.abbagospel.online/api/news/stats/total-pending"
+          "https://www.abbagospel.fr/api/news/stats/total-pending"
         );
         const totalReadsRes = await Axios.get(
-          "https://www.abbagospel.online/api/news/stats/total-read"
+          "https://www.abbagospel.fr/api/news/stats/total-read"
         );
         const totalCategoriesRes = await Axios.get(
-          "https://www.abbagospel.online/api/categories/total"
+          "https://www.abbagospel.fr/api/categories/total"
         );
         const totalUsersRes = await Axios.get(
-          "https://www.abbagospel.online/api/users/total",
+          "https://www.abbagospel.fr/api/users/total",
           {
             headers: { auth: `${token}` },
           }
         );
         const recentNewsRes = await Axios.get(
-          "https://www.abbagospel.online/api/news/stats/recent"
+          "https://www.abbagospel.fr/api/news/stats/recent"
         );
         const mostReadRes = await Axios.get(
-          "https://www.abbagospel.online/api/news/stats/most-read"
+          "https://www.abbagospel.fr/api/news/stats/most-read"
         );
 
         setTotalArticles(totalArticlesRes.data.data);

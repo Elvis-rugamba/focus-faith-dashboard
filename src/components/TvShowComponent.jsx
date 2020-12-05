@@ -77,9 +77,9 @@ export default function TvShowComponent(props) {
     const fetchArticles = async () => {
       try { 
         setLoading(true);
-        const categories = await Axios.get('https://www.abbagospel.online/api/tv/categories');
-      const categorieGroup = await Axios.get('https://www.abbagospel.online/api/tv/categories/group');
-      const response = await Axios.get('https://www.abbagospel.online/api/tv');
+        const categories = await Axios.get('https://www.abbagospel.fr/api/tv/categories');
+      const categorieGroup = await Axios.get('https://www.abbagospel.fr/api/tv/categories/group');
+      const response = await Axios.get('https://www.abbagospel.fr/api/tv');
       // console.log('savagelove+++++++++++++++++++++++++++')
       // console.log('-------------->', response.data.data);
       setCategories(categories.data.data);

@@ -92,7 +92,7 @@ const AddTvShow = (props) => {
           setLoadingSubmit(true)
           const token = localStorage.getItem("token");
           const results = await Axios.post(
-            "https://www.abbagospel.online/api/tv",
+            "https://www.abbagospel.fr/api/tv",
             {
               title: article.title,
               body: content,
@@ -136,7 +136,7 @@ const AddTvShow = (props) => {
         };
         
         // replace cloudname with your Cloudinary cloud_name
-        const results = await fetch('https://www.abbagospel.online/api/tv/cover', options);
+        const results = await fetch('https://www.abbagospel.fr/api/tv/cover', options);
         const response = await results.json();
         setLoading(false);
         console.log('uploaded!!!');
@@ -166,7 +166,7 @@ const AddTvShow = (props) => {
         };
         
         // replace cloudname with your Cloudinary cloud_name
-        const results = await fetch('https://www.abbagospel.online/api/tv/upload', options);
+        const results = await fetch('https://www.abbagospel.fr/api/tv/upload', options);
         const response = await results.json();
         setLoading(false);
         console.log('uploaded!!!');

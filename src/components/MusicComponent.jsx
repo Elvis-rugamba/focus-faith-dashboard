@@ -77,9 +77,9 @@ export default function MusicComponent(props) {
     const fetchArticles = async () => {
       try { 
         setLoading(true);
-        const categories = await Axios.get('https://www.abbagospel.online/api/musics/categories');
-      const categorieGroup = await Axios.get('https://www.abbagospel.online/api/musics/categories/group');
-      const response = await Axios.get('https://www.abbagospel.online/api/musics');
+        const categories = await Axios.get('https://www.abbagospel.fr/api/musics/categories');
+      const categorieGroup = await Axios.get('https://www.abbagospel.fr/api/musics/categories/group');
+      const response = await Axios.get('https://www.abbagospel.fr/api/musics');
       // console.log('savagelove+++++++++++++++++++++++++++')
       // console.log('-------------->', response.data.data);
       setCategories(categories.data.data);

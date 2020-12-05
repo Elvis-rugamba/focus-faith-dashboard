@@ -86,7 +86,7 @@ const AddVerse = (props) => {
         try {
           setLoadingSubmit(true)
           const results = await Axios.post(
-            "https://www.abbagospel.online/api/verses",
+            "https://www.abbagospel.fr/api/verses",
             {
               body: article.body,
               french: article.frensh,

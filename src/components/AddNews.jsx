@@ -174,7 +174,7 @@ const AddNews = (props) => {
       setLoadingSubmit(true);
       const token = localStorage.getItem("token");
       const results = await Axios.post(
-        "https://www.abbagospel.online/api/new-article",
+        "https://www.abbagospel.fr/api/new-article",
         {
           title: article.title,
           subtitle: article.subtitle,
@@ -225,7 +225,7 @@ const AddNews = (props) => {
 
       // replace cloudname with your Cloudinary cloud_name
       const results = await fetch(
-        "https://www.abbagospel.online/api/news/upload",
+        "https://www.abbagospel.fr/api/news/upload",
         options
       );
       const response = await results.json();

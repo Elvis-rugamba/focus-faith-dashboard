@@ -66,7 +66,7 @@ export default function UsersTable() {
       try {
         setLoading(true);
         const response = await Axios.get(
-          "https://www.abbagospel.online/api/users"
+          "https://www.abbagospel.fr/api/users"
         );
         // console.log('savagelove+++++++++++++++++++++++++++')
         // console.log('-------------->', response.data.data);

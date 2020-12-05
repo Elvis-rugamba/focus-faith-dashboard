@@ -70,9 +70,9 @@ export default function RadioComponent(props) {
     const fetchArticles = async () => {
       try { 
         setLoading(true);
-        const categories = await Axios.get('https://www.abbagospel.online/api/radio/categories');
-      const categorieGroup = await Axios.get('https://www.abbagospel.online/api/radio/categories/group');
-      const response = await Axios.get('https://www.abbagospel.online/api/radio');
+        const categories = await Axios.get('https://www.abbagospel.fr/api/radio/categories');
+      const categorieGroup = await Axios.get('https://www.abbagospel.fr/api/radio/categories/group');
+      const response = await Axios.get('https://www.abbagospel.fr/api/radio');
       // console.log('savagelove+++++++++++++++++++++++++++')
       // console.log('-------------->', response.data.data);
       setCategories(categories.data.data);

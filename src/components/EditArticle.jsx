@@ -118,7 +118,7 @@ const EditNews = (props) => {
       setLoadingSubmit(true)
       const token = localStorage.getItem('token');
       const results = await Axios.patch(
-        `https://www.abbagospel.online/api/edit-article/${props.article.news_id}`,
+        `https://www.abbagospel.fr/api/edit-article/${props.article.news_id}`,
         {
           title: article.title ? article.title : props.article.title,
           subtitle: article.subtitle
@@ -166,7 +166,7 @@ const EditNews = (props) => {
       setLoadingDelete(true)
       const token = localStorage.getItem('token');
       const results = await Axios.delete(
-        `https://www.abbagospel.online/api/news/${props.article.news_id}`,
+        `https://www.abbagospel.fr/api/news/${props.article.news_id}`,
         {
           headers: { auth: `${token}` },
         }
@@ -203,7 +203,7 @@ const EditNews = (props) => {
 
     // replace cloudname with your Cloudinary cloud_name
     const results = await fetch(
-      "https://www.abbagospel.online/api/news/upload",
+      "https://www.abbagospel.fr/api/news/upload",
       options
     );
     const response = await results.json();

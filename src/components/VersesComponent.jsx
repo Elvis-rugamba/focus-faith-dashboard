@@ -70,7 +70,7 @@ export default function VersesComponent(props) {
     const fetchArticles = async () => {
       try { 
         setLoading(true);
-      const response = await Axios.get('https://www.abbagospel.online/api/verses');
+      const response = await Axios.get('https://www.abbagospel.fr/api/verses');
       // console.log('savagelove+++++++++++++++++++++++++++')
       // console.log('-------------->', response.data.data);
       setArticles(response.data.data);

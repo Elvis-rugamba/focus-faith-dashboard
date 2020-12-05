@@ -74,15 +74,15 @@ const handleRwandanName = (event) => {
 
        let linkUrl;
        if (props.type === 'articles') {
-         linkUrl = "https://www.abbagospel.online/api/new-category"
+         linkUrl = "https://www.abbagospel.fr/api/new-category"
        } else if (props.type === 'tv shows') {
-        linkUrl = "http://localhost:3000/api/tv/categories"
+        linkUrl = "https://www.abbagospel.fr/api/tv/categories"
       } else if (props.type === 'musics') {
-        linkUrl = "https://www.abbagospel.online/api/musics/categories"
+        linkUrl = "https://www.abbagospel.fr/api/musics/categories"
       } else if (props.type === 'articles') {
-        linkUrl = "https://www.abbagospel.online/api/radio/categories"
+        linkUrl = "https://www.abbagospel.fr/api/radio/categories"
       } else {
-        linkUrl = "https://www.abbagospel.online/api/new-category"
+        linkUrl = "https://www.abbagospel.fr/api/new-category"
       }
       
        const token = localStorage.getItem("token");

@@ -16,21 +16,21 @@ import Snackbar from "@material-ui/core/Snackbar";
 import LinearProgress  from "@material-ui/core/LinearProgress";
 
 const columns = [
-  { id: 'title', label: 'Title', minWidth: 100 },
+  { id: 'title', label: 'Title', minWidth: 270 },
   {
     id: 'subtitle',
     label: 'Subtitle',
-    minWidth: 170,
+    minWidth: 270,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
-  {
-    id: 'body',
-    label: 'Body',
-    minWidth: 270,
-    align: 'center',
-    format: (value) => value.toLocaleString('en-US'),
-  },
+  // {
+  //   id: 'body',
+  //   label: 'Body',
+  //   minWidth: 270,
+  //   align: 'center',
+  //   format: (value) => value.toLocaleString('en-US'),
+  // },
   {
     id: 'category',
     label: 'Category',
@@ -44,6 +44,13 @@ const columns = [
     minWidth: 170,
     align: 'right',
     format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'created_at',
+    label: 'Created At',
+    minWidth: 170,
+    align: 'left',
+    format: (value) => new Date(value).toLocaleString(),
   },
   {
     id: 'status',
@@ -91,12 +98,13 @@ export default function NewsTable(props) {
     const fetchArticles = async () => {
       try { 
         setLoading(true);
-        const categories = await Axios.get('https://www.abbagospel.online/api/categories');
-      const categorieGroup = await Axios.get('https://www.abbagospel.online/api/group-categories');
-      const response = await Axios.get('https://www.abbagospel.online/api/news');
+        const categories = await Axios.get('https://www.abbagospel.fr/api/categories');
+      const categorieGroup = await Axios.get('https://www.abbagospel.fr/api/group-categories');
+      const response = await Axios.get('https://www.abbagospel.fr/api/news');
       setCategories(categories.data.data);
       setCategoriesGroup(categorieGroup.data.data);
       setArticles(response.data.data);
+      console.log('response.data.data', response.data.data);
       setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -161,12 +169,16 @@ export default function NewsTable(props) {
                         >
                           {columns.map((column) => {
                             let value = article[column.id];
-                            // if (article["body"])
-                            //   value = `${value.slice(0, 80)}...`;
+                            if (column.id === 'created_at')
+                              value = new Date(value).toLocaleString('en-US');
                             return (
                               <TableCell key={column.id} align={column.align}>
-                                {value === article.body
+                                {value === article.title
                                   ? `${value.slice(0, 50)}...`
+                                  : article.subtitle
+                                  ? `${value.slice(0, 50)}...`
+                                  // : article.body
+                                  // ? `${value.slice(0, 50)}...`
                                   : value}
                               </TableCell>
                             );

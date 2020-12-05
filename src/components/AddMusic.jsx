@@ -92,7 +92,7 @@ const AddMusic = (props) => {
           setLoadingSubmit(true)
           const token = localStorage.getItem("token");
           const results = await Axios.post(
-            "https://www.abbagospel.online/api/musics",
+            "https://www.abbagospel.fr/api/musics",
             {
               name: article.name,
               artist: article.artist,
@@ -135,7 +135,7 @@ const AddMusic = (props) => {
         };
         
         // replace cloudname with your Cloudinary cloud_name
-        const results = await fetch('https://www.abbagospel.online/api/musics/cover', options);
+        const results = await fetch('https://www.abbagospel.fr/api/musics/cover', options);
         const response = await results.json();
         setLoading(false);
         console.log('uploaded!!!');
@@ -165,7 +165,7 @@ const AddMusic = (props) => {
         };
         
         // replace cloudname with your Cloudinary cloud_name
-        const results = await fetch('https://www.abbagospel.online/api/musics/upload', options);
+        const results = await fetch('https://www.abbagospel.fr/api/musics/upload', options);
         const response = await results.json();
         setLoading(false);
         console.log('uploaded!!!');

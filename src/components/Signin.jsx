@@ -22,7 +22,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://www.abbagospel.online">
+      <Link color="inherit" href="https://www.abbagospel.fr">
         Abbagospel
       </Link>{" "}
       {new Date().getFullYear()}
@@ -72,7 +72,7 @@ const SignIn = () => {
       const history = createBrowserHistory({
         forceRefresh: true,
       });
-      const results = await Axios.post("https://www.abbagospel.online/api/signin", {
+      const results = await Axios.post("https://www.abbagospel.fr/api/signin", {
         email: user.email,
         password: user.password,
       });
